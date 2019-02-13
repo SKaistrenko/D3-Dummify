@@ -39,7 +39,7 @@ class Chart extends Component {
   }
 
   render() {
-    var svg = ReactFauxDOM.createElement('svg');
+    const svg = ReactFauxDOM.createElement('svg');
     return (this.plotGraph(svg)).toReact()
   }
 }

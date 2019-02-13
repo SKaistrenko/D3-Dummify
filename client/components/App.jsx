@@ -18,17 +18,17 @@ class App extends Component {
     super();
     this.state = {
       data: [
-        { name: 'Q1', value: 20 },
-        { name: 'Q2', value: 70 },
-        { name: 'Q3', value: 5 },
-        { name: 'Q4', value: 30 },
+        { name: 2, value: 20 },
+        { name: 5, value: 70 },
+        { name: 10, value: 5 },
+        { name: 15, value: 30 },
       ],
       // will be modified to reflect the code used to build the graph
       codeText: '',
 
       // reflect the type of graph chosen by user
       // defaulted to Bar Chart
-      type: 'BarChart',
+      type: 'LineChart',
 
       // options that can be modified by user for each type
       // of graphs available in the app

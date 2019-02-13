@@ -3,6 +3,15 @@ import Chart from '../classes/Chart';
 
 class LineChart extends Chart {
   plotGraph(el) {
+    const xData = [];
+    const yData = [];
+
+    // populates the yData and xData arrays
+    for (const dataPair of this.props.data) {
+      xData.push(dataPair.name);
+      yData.push(dataPair.value);
+    }
+
     const svgWidth = this.props.options.chartWidth.value;
     const svgHeight = this.props.options.chartHeight.value;
 
@@ -39,13 +48,20 @@ class LineChart extends Chart {
     // .rangeRound(): Sets the scale’s range to the specified array of values while also setting the scale’s interpolator to interpolateRound.
     // The array must contain two or more elements. Unlike the domain, elements in the given array need not be temporal domain values;
     // any value that is supported by the underlying interpolator will work
-    const x = d3.scaleTime().rangeRound([0, width]);
+    const x = d3
+      .scaleBand()
+      .domain(xData)
+      .rangeRound([0, width])
+      .padding(0);
 
     // .scaleLinear(): Constructs a new continuous linear scale with the unit domain [0, 1], the unit range [0, 1], the default interpolator and clamping disabled.
     // The scale will have range and output of data type number.
-     const y = d3.scaleLinear().rangeRound([height, 0]);
+     const y = d3
+      .scaleLinear()
+      .domain([0, Math.max(...yData)])
+      .range([height, 0]);
 
-    // line(): Contruct a new line generator with the default settings
+    // line(): Construct a new line generator with the default settings
 
     // .x(): Sets the x accessor to the specified function and returns this line generator.
     // When a line is generated, the x accessor will be invoked for each defined element in the input data array.
@@ -54,16 +70,15 @@ class LineChart extends Chart {
     // When a line is generated, the y accessor will be invoked for each defined element in the input data array.
     const line = d3
       .line()
-      .x(d => x(d.date))
+      .x(d => x(d.name))
       .y(d => y(d.value));
 
     // .domain(): Sets the scale’s domain to the specified array of temporal domain values.
     // The array must contain two or more elements. If the elements in the given array are not dates, they will be coerced to dates.
 
-    console.log(this.props.data);
     // .extent(): Return the min and max simultaneously.
-    x.domain(d3.extent(this.props.data, d => d.date));
-    y.domain(d3.extent(this.props.data, d => d.value));
+    // x.domain(d3.extent(this.props.data, d => d.date));
+    // y.domain(d3.extent(this.props.data, d => d.value));
 
     // Create a line, rotate it, style it, and use it as the x-axis
     g.append('g')
@@ -78,7 +93,7 @@ class LineChart extends Chart {
 
       // ..remove(): Removes the selected elements from the document.
       // Returns this selection (the removed elements) which are now detached from the DOM.
-      .remove();
+      // .remove();
 
     // Create a line, rotate it, style it, and use it as the y-axis
     g.append('g')
@@ -100,7 +115,7 @@ class LineChart extends Chart {
     g.append('path')
       // .datum(): Sets the element’s bound data to the specified value on all selected elements.
       // Unlike selection.data, this method does not compute a join and does not affect indexes or the enter and exit selections.
-      .datum(data)
+      .datum(this.props.data)
       .attr('fill', 'none')
       .attr('stroke', 'steelblue')
       .attr('stroke-linejoin', 'round')
