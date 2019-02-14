@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { csvParse } from 'd3';
 
-
 //import styled components
 import { MainWrapper, Title, GraphAndOptionsWrapper } from './../Styles/styledComponents';
 
@@ -11,7 +10,7 @@ import InputsDisplay from './InputsDisplay.jsx';
 import ChartDisplay from './ChartDisplay.jsx';
 import Navbar from './Navbar.jsx';
 import Footer from './Footer.jsx';
-import CodeDisplay from  './CodeDisplay.jsx';
+import CodeDisplay from './CodeDisplay.jsx';
 
 class App extends Component {
   constructor() {
@@ -42,11 +41,11 @@ class App extends Component {
           'chartTitle',
           'xTitle',
           'yTitle',
-          'transition',
+          'transition'
         ],
         PieChart: ['chartWidth', 'chartHeight', 'chartTitle'],
         BubbleChart: ['chartWidth', 'chartHeight', 'chartTitle'],
-        LineChart: ['chartTitle', 'chartWidth', 'chartHeight'],
+        LineChart: ['chartTitle', 'chartWidth', 'chartHeight']
       },
 
       // all available options
@@ -56,9 +55,9 @@ class App extends Component {
       chartBGColor: { value: '#fbfbfb', type: 'color' },
       xTitle: { value: 'Quartiles', type: 'text' },
       yTitle: { value: 'Rainfall (cm)', type: 'text' },
-      barColor: { value: '#7e8471', type: 'color' },
+      barColor: { value: '#083B84', type: 'color' },
       barMargin: { value: 2, type: 'number' },
-      transition: { name: 'false', type: 'checkbox' },
+      transition: { name: 'false', type: 'checkbox' }
     };
 
     // binding functions that are passed to children components
@@ -81,11 +80,11 @@ class App extends Component {
 
     // update the state for corresponding options
     this.setState({
-      [name]: newObj,
+      [name]: newObj
     });
   }
 
-  handleDataInput(file){
+  handleDataInput(file) {
     const reader = new FileReader();
 
     reader.onload = () => {
@@ -95,21 +94,20 @@ class App extends Component {
         name: d.name,
         value: +d.value
       }));
-      this.setState({data: data})
-    }
+      this.setState({ data: data });
+    };
 
-    reader.readAsText(file, 'UTF-8')
+    reader.readAsText(file, 'UTF-8');
   }
-
 
   updateCodeText(codeText) {
     this.setState({ codeText });
   }
 
-  changeGraph(e){
+  changeGraph(e) {
     this.setState({
       type: e.target.alt
-    })
+    });
   }
 
   render() {
@@ -126,10 +124,7 @@ class App extends Component {
         <Navbar />
         <Title>D3 Simplifier</Title>
 
-        <ChartTypeDisplayContainer
-          types={Object.keys(graphs)} 
-          changeGraph={this.changeGraph}
-        />
+        <ChartTypeDisplayContainer types={Object.keys(graphs)} changeGraph={this.changeGraph} />
         <GraphAndOptionsWrapper>
           {/* Container that has each option as a child components */}
           <InputsDisplay
@@ -146,10 +141,7 @@ class App extends Component {
           />
         </GraphAndOptionsWrapper>
 
-        <CodeDisplay
-          codeText={codeText}
-          updateCodeText={this.updateCodeText}
-        />
+        <CodeDisplay codeText={codeText} updateCodeText={this.updateCodeText} />
         <Footer />
       </MainWrapper>
     );
